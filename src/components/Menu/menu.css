@@ -1,0 +1,137 @@
+.menu {
+   width: 236px;
+   height: 704px;
+   background-color: #eeeeff;
+   border-radius: 30px;
+   padding-top: 44px;
+
+   & .menu-logo {
+      width: 148px;
+      height: 58px;
+      display: flex;
+      gap: 8.57px;
+      align-items: center;
+      margin-left: 44px;
+      margin-right: 44px;
+
+      & #menu-logo-img {
+         width: 59.01px;
+         height: 58px;
+      }
+
+      & #menu-text-img {
+         width: 80.42px;
+         height: 40.95px;
+      }
+   }
+
+   & .menu-list-wrapper {
+      display: grid;
+      gap: 0;
+      justify-content: center;
+      max-width: 216px;
+      padding-top: 40px;
+
+      & .menu-list {
+         display: flex;
+         gap: 8px;
+         height: 40px;
+         color: #434b74;
+         align-items: center;
+         padding-left: 44px;
+         width: 216px;
+         cursor: pointer;
+         font-size: 16px;
+         font-weight: 400;
+         line-height: 21px;
+
+         &:hover {
+            background-color: #8d7fc7;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 21px;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+         }
+
+         & img {
+            width: 28px;
+            height: 28px;
+            color: #434b74;
+         }
+
+         &.menu-active {
+            background-color: #8d7fc7;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 21px;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+         }
+      }
+   }
+
+   & .referral {
+      max-width: 196px;
+      max-height: 128px;
+      padding-top: 16px;
+      padding-bottom: 10px;
+      padding-left: 16px;
+      margin-top: 50px;
+      display: grid;
+      justify-content: start;
+      align-items: start;
+      gap: 10px;
+      position: relative;
+      background-color: #fdfdff;
+      margin-left: 20px;
+
+      & .referral-descrption {
+         display: grid;
+         align-items: start;
+         gap: 4px;
+         & h2 {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #323854;
+            text-align: start;
+         }
+
+         & span {
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 12px;
+            color: #323854;
+            max-width: 146px;
+            max-height: 36px;
+            text-align: start;
+         }
+      }
+
+      & #referral-btn {
+         width: 68px;
+         height: 32px;
+         top: 86px;
+         left: 16px;
+         padding: 8px 16px;
+         gap: 10px;
+         border-radius: 15px;
+         background-color: #d8ecff;
+         text-align: center;
+         border: none;
+
+         &:hover{
+            background-color: #c3ddf6;
+         }
+      }
+
+      & #gift-icon {
+         position: absolute;
+         bottom: 0;
+         right: 0;
+      }
+   }
+}
