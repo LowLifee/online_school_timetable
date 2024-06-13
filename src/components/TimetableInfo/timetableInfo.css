@@ -1,0 +1,24 @@
+.timetable-info {
+   max-width: 1154px;
+   padding: 20px 50px 0px 32px;
+   display: grid;
+   gap: 20px;
+   position: relative;
+
+   & .sales {
+      display: flex;
+      gap: 20px;
+      justify-content: start;
+      align-items: start;
+
+      & .tasks {
+         display: grid;
+         gap: 20px;
+      }
+   }
+
+   & .lessons-info{
+      display: flex;
+      gap: 20px;
+   }
+}

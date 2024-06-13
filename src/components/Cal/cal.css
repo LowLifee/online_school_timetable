@@ -1,0 +1,7 @@
+.cal-wrapper {
+   max-width: 1072px;
+   max-height: 573px;
+   display: grid;
+   gap: 12px;
+   padding-top: 27px;
+}

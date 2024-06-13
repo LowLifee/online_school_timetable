@@ -1,0 +1,96 @@
+{
+   "emails": [
+      {
+         "email": "mixail@mail.ru",
+         "password": "admin",
+         "id": "1",
+         "name": "Михайл",
+         "img": "src/assets/img/user_avatar.png",
+         "message_quantity": "1",
+         "lessons": [
+            {
+               "subject": "Программирование",
+               "date": "2024.05.14",
+               "time": "14:00-14:25",
+               "teacher": "Львова Василиса",
+               "payed": true,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Программирование",
+               "date": "2024.06.14",
+               "time": "14:00-14:25",
+               "teacher": "Львова Василиса",
+               "payed": true,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Скорочтение",
+               "date": "2024.06.26",
+               "time": "11:00-11:11",
+               "teacher": "Козлова Алиса",
+               "payed": false,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Ментальная Арифметика",
+               "date": "2024.08.20",
+               "time": "09:00-09:45",
+               "teacher": "Ким Александр",
+               "payed": false,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Ментальная Арифметика",
+               "date": "2024.09.26",
+               "time": "01:00-01:45",
+               "teacher": "Ким Александр",
+               "payed": false,
+               "missed": false,
+               "cancelled": false
+            }
+         ]
+      },
+      {
+         "email": "anna@mail.ru",
+         "password": "admin",
+         "id": "2",
+         "name": "Анна",
+         "img": "src/assets/img/anna_avatar.png",
+         "message_quantity": "2",
+         "lessons": [
+            {
+               "subject": "Ментальная Арифметика",
+               "date": "2024.06.19",
+               "time": "11:00-11:11",
+               "teacher": "Белкина Инна",
+               "payed": true,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Программирование",
+               "date": "2024.06.26",
+               "time": "09:00-09:45",
+               "teacher": "Животновская Оксана",
+               "payed": false,
+               "missed": false,
+               "cancelled": false
+            },
+            {
+               "subject": "Скорочтение",
+               "date": "2024.07.20",
+               "time": "14:00-14:25",
+               "teacher": "Мин Елена",
+               "payed": false,
+               "missed": false,
+               "cancelled": false
+            }
+         ]
+      }
+   ]
+}

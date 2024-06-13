@@ -1,63 +1,77 @@
 
+import { useCallback, useState } from 'react';
 
-import Button from 'components/Button/Button';
+import AuthForm from 'components/AuthForm/AuthForm';
 
 import logo from 'assets/img/Logo.png';
-import passwordIconHidden from 'assets/img/password_hidden_icon.png';
+import { selectUsersInfo } from '../MainPage/userSelector';
+import { useSelector } from 'react-redux';
+
+import { GridLoader } from 'react-spinners';
 
 import './authPage.css';
 
 
-const AuthPage = () => (
-   <div className={'auth-page'}>
-      <div className="auth-page-main">
-         <img src={logo}
-            alt="Logo"
-            className="logo" />
-         <div className="auth-form-wrapper">
-            <h1>Вход в Sirius Future</h1>
-            <form className="auth-page-form">
-               <div className="auth-inputs-wrapper">
+const AuthPage = () => {
+   const { status, error } = useSelector(selectUsersInfo);
 
-                  <div className="inputs">
-                     <input
-                        type="email"
-                        name='email'
-                        placeholder='E-mail' />
-                  </div>
-                  <div className="inputs">
-                     <input
-                        type="password"
-                        name='password'
-                        placeholder='Пароль' />
-                     <i id='password-icon'><img src={passwordIconHidden} alt="Hide password" /></i>
-                  </div>
-                  <div className="checkbox-wrapper">
-                     <input
-                        type="checkbox"
-                        name='checkbox'
-                        id='auth-checkbox' />
-                     <label htmlFor="auth-checkbox">Запомнить меня</label>
-                  </div>
+   const renderItem = useCallback(() => {
+      switch (status) {
+         case 'idle':
+            return <div className="auth-page-main">
+            <img src={logo}
+               alt="Logo"
+               className="logo" />
+            <div className="auth-form-wrapper">
+               <h1>Вход в Sirius Future</h1>
+               <AuthForm />
+               <div className="registration">
+                  <span>Нет аккаунта?</span>
+                  <span id='reg'>Зарегистрироваться</span>
                </div>
-               <div className="auth-btn-wrapper">
-                  <Button children='Войти' />
-                  <div className="entring-as">
-                     <span>Я забыл пароль</span>
-                     <span>Войти как тренер</span>
-                  </div>
+               <div className="language">
+                  <span className='active'>RU</span> <span>EN</span>
                </div>
-            </form>
-            <div className="registration">
-               <span>Нет аккаунта?</span>
-               <span id='reg'>Зарегистрироваться</span>
-            </div>
-            <div className="language">
-               <span className='active'>RU</span> <span>EN</span>
             </div>
          </div>
+            break
+         case 'loading':
+            return <GridLoader
+               color='#decfff'
+               size={50} />
+         case 'received':
+            return <div className="auth-page-main">
+               <img src={logo}
+                  alt="Logo"
+                  className="logo" />
+               <div className="auth-form-wrapper">
+                  <h1>Вход в Sirius Future</h1>
+                  <AuthForm />
+                  <div className="registration">
+                     <span>Нет аккаунта?</span>
+                     <span id='reg'>Зарегистрироваться</span>
+                  </div>
+                  <div className="language">
+                     <span className='active'>RU</span> <span>EN</span>
+                  </div>
+               </div>
+            </div>
+            break;
+         case 'rejected':
+            return <h2>Error</h2>
+            break;
+         default:
+            return <h2>Error</h2>
+      }
+   }, [status])
+
+   const element = renderItem();
+
+   return (
+      <div className={'auth-page'}>
+         {element}
       </div>
-   </div>
-);
+   );
+}
 
 export default AuthPage;

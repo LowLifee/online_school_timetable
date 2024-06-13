@@ -1,0 +1,39 @@
+.frame-wrapper {
+   max-width: 1072px;
+   max-height: 529px;
+
+   & .days {
+      padding: 0;
+      display: flex;
+      gap: 0;
+      align-items: center;
+      justify-content: start;
+
+      & li {
+         width: 153.14px;
+         height: 24px;
+         padding: 0px 6px;
+         gap: 0px;
+         border: 1px solid #fff;
+         align-items: center;
+         justify-items: end;
+         font-size: 15px;
+         font-weight: 400;
+         line-height: 20.25px;
+         text-align: end;
+         color: #79747f;
+      }
+   }
+
+   & .days-shedule {
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(7, 153.14px);
+      grid-template-rows: repeat(5, 101px);
+      gap: 0;
+      align-items: center;
+      justify-content: start;
+      border-left: 1px solid #ececec;
+      border-top: 1px solid #ececec;
+   }
+}

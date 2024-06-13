@@ -1,0 +1,34 @@
+.days-list {
+   width: 153.14px;
+   height: 101px;
+   padding: 4px 2px 2px 2px;
+   display: grid;
+   gap: 2px;
+   border-bottom: 1px solid #ececec;
+   border-right: 1px solid #ececec;
+   position: relative;
+   align-content: flex-end;
+   justify-content: center;
+
+   & .list-date {
+      position: absolute;
+      top: 4px;
+      right: 2px;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 12px;
+      text-align: right;
+      color: #c8c5cd;
+   }
+
+   & .list-date-current {
+      position: absolute;
+      top: 4px;
+      right: 2px;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 12px;
+      text-align: right;
+      color: #79747f;
+   }
+}

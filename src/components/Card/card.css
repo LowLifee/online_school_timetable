@@ -1,0 +1,95 @@
+.card {
+   cursor: pointer;
+   padding: 0px 3px;
+
+   & .sbj-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 139px;
+
+      & .card-time {
+         font-size: 12px;
+         font-weight: 400;
+         line-height: 16.2px;
+         text-align: left;
+         color: #323854;
+      }
+
+      & img {
+         width: 16px;
+         height: 16px;
+      }
+   }
+
+   & .card-sbj {
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 8px;
+      text-align: left;
+      color: #323854;
+   }
+}
+
+.card.done {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #79747f;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+}
+
+.card.coming {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #bbe7b9;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+   background-color: #d7f0d6;
+}
+
+.card.past-not {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #e12828;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+}
+
+.card.canceled {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #79747f;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+}
+
+.card.todays-done {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #decfff;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+   background-color: #decfff;
+}
+
+.card.todays-canceled {
+   width: 145px;
+   height: 34px;
+   border: 1px solid #c8c5cd;
+   border-radius: 2px;
+   display: grid;
+   align-items: center;
+   justify-content: start;
+   background-color: #c8c5cd;
+}

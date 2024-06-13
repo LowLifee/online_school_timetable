@@ -4,6 +4,7 @@
    background-color: #eeeeff;
    border-radius: 30px;
    padding-top: 44px;
+   margin-top: 24px;
 
    & .menu-logo {
       width: 148px;
@@ -123,7 +124,7 @@
          text-align: center;
          border: none;
 
-         &:hover{
+         &:hover {
             background-color: #c3ddf6;
          }
       }

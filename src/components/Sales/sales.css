@@ -1,0 +1,48 @@
+.sales-page {
+   max-width: 526px;
+   height: 248px;
+   padding: 56px 0px 56px 0px;
+   background-color: #7362bc;
+   border-radius: 30px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 0;
+   overflow: hidden;
+   position: relative;
+
+   & .sales-info {
+      max-width: 296px;
+      display: grid;
+      gap: 12px;
+      align-items: center;
+      justify-content: start;
+      margin-left: 40px;
+      float: left;
+
+      & .sales-info-title {
+         padding: 0;
+         font-size: 32px;
+         font-weight: 400;
+         line-height: 32px;
+         width: 366px;
+         height: 64px;
+         text-align: left;
+         color: #ffffff;
+      }
+
+      & .sales-info-text {
+         font-size: 16px;
+         font-weight: 300;
+         line-height: 20px;
+         width: 294px;
+         text-align: left;
+         color: #ffffff;
+      }
+   }
+
+   & #sales-img {
+      width: 261px;
+      height: 248px;
+   }
+}

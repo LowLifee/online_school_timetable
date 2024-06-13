@@ -1,0 +1,69 @@
+.lessons-balance {
+   max-width: 344px;
+   max-height: 372px;
+   border: 1px solid #7362bc;
+   border-radius: 30px;
+   padding: 28px 0px 30px 28px;
+   display: grid;
+   gap: 16px;
+
+   & .balance-title {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: left;
+      color: #323854;
+   }
+
+   & .balance-content {
+      display: grid;
+      gap: 36px;
+
+      & button {
+         margin-right: 20px;
+      }
+
+      & .balance-list {
+         max-height: 198px;
+         display: grid;
+         gap: 8px;
+         overflow-x: hidden;
+         &::-webkit-scrollbar {
+            width: 4px;
+         }
+
+         &::-webkit-scrollbar-thumb {
+            background-color: #eeeeff;
+            border-radius: 10px;
+            height: 8px;
+         }
+
+         & .subjects-lists {
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eeeeff;
+            margin-right: 20px;
+
+            & .subjects-name {
+               font-size: 16px;
+               font-weight: 400;
+               line-height: 20px;
+               text-align: left;
+               color: #323854;
+            }
+
+            & .subjects-balance {
+               width: 40px;
+               height: 40px;
+               border-radius: 50px;
+               background-color: #eeeeff;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+            }
+         }
+      }
+   }
+}

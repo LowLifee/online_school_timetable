@@ -1,0 +1,49 @@
+.cal-header {
+   width: 1072px;
+   height: 32px;
+   display: flex;
+   align-items: center;
+   justify-content: start;
+   gap: 32px;
+
+   & .today-part {
+      width: 125px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 16px;
+
+      & button {
+         width: 85px;
+         height: 32px;
+         padding: 8px 16px;
+         cursor: pointer;
+         border-radius: 15px;
+         border: 1px solid #8d7fc7;
+         color: #323854;
+         background-color: transparent;
+
+         &:hover {
+            border: 1px solid #7a6ea7;
+            color: rgb(90, 85, 109);
+         }
+      }
+
+      & span {
+         width: 24px;
+         height: 24px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50px;
+         border: 1px solid #8d7fc7;
+         color: #8d7fc7;
+         cursor: pointer;
+
+         &:hover {
+            border: 1px solid #7a6ea7;
+            color: #7a6ea7;
+         }
+      }
+   }
+}

@@ -1,3 +1,8 @@
+import { useCallback, useMemo, useState } from 'react';
+import { useMenu } from './useMenu';
+import { MouseEvent } from 'react';
+
+
 
 import logoIcon from 'assets/img/Logo.png';
 import logoTextIcon from 'assets/img/Logo_text.png';
@@ -16,6 +21,23 @@ import './menu.css';
 
 const Menu = () => {
 
+   const [menu, chooseMenu] = useMenu();
+   const lists = document.querySelectorAll('.menu-list');
+
+   const onChooseMenu = useCallback((e: MouseEvent<HTMLLIElement>) => {
+      const dataAtt = (e.target as HTMLLIElement).getAttribute('data-img') as typeof menu;
+      if (dataAtt) {
+         chooseMenu(dataAtt);
+         lists.forEach(li => {
+            li.classList.remove('menu-active');
+            if (dataAtt === li.getAttribute('data-img')) {
+               li.classList.add('menu-active');
+            }
+         })
+      }
+   }, [menu]);
+
+
    return (
       <div className="menu">
          <div className="menu-logo">
@@ -23,8 +45,13 @@ const Menu = () => {
             <img src={logoTextIcon} alt="Logo text" id='menu-text-img' />
          </div>
          <ul className='menu-list-wrapper'>
-            <li className='menu-list menu-active'><img src={homeIcon} alt="Home" /><span>Главная</span></li>
-            <li className='menu-list'><img src={timetableIcon} alt="Timetable" /><span>Расписание</span></li>
+            <li className='menu-list menu-active'
+               onClick={(e) => onChooseMenu(e)}
+               data-img="Home"><img src={homeIcon} alt="Home" data-img="Home" /><span data-img="Home">Главная</span></li>
+            <li className='menu-list'
+               onClick={(e) => onChooseMenu(e)}
+               data-img="timetable"
+            ><img src={timetableIcon} alt="Timetable" data-img="timetable" /><span data-img="timetable">Расписание</span></li>
             <li className='menu-list'><img src={payIcon} alt="Pay" /><span>Оплата</span></li>
             <li className='menu-list'><img src={achievementsIcon} alt="Achievements" /><span>Достижение</span></li>
             <li className='menu-list'><img src={trainingIcon} alt="Training" /><span>Тренажеры</span></li>

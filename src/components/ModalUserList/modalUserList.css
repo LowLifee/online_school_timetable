@@ -1,0 +1,132 @@
+.modal-user-list {
+   position: absolute;
+   margin-top: 0px;
+   right: 37px;
+   width: 250px;
+   padding-top: 12px;
+   padding-right: 12px;
+   padding-left: 30px;
+   padding-bottom: 30px;
+   border-radius: 12px;
+   border: 1px solid #7362bc;
+   display: none;
+   gap: 0;
+   z-index: 12;
+   background-color: #fdfdff;
+
+   & i {
+      width: 16px;
+      height: 12px;
+      position: relative;
+      top: -26px;
+      right: -152px;
+   }
+
+   & #modal-close-cross-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+      color: #7362bc;
+      cursor: pointer;
+   }
+
+   & h2 {
+      padding: 0;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 21.6px;
+      color: #323854;
+      margin-bottom: 12px;
+      text-align: start;
+   }
+
+   & .user-list {
+      padding-bottom: 12px;
+      border-bottom: 0.1px solid #eeeeff;
+      margin-bottom: 12px;
+      display: grid;
+      gap: 8px;
+
+      & li {
+         width: 190px;
+         height: 48px;
+         padding-top: 8px;
+         padding-left: 8px;
+         padding-bottom: 8px;
+         display: flex;
+         justify-content: start;
+         gap: 8px;
+         cursor: pointer;
+
+         & img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #7362bc;
+         }
+
+         &.modal-active-user {
+            background-color: #eeeeff;
+         }
+
+         & .modal-user-info {
+            display: grid;
+            gap: 2px;
+            width: 42px;
+            height: 30px;
+            align-items: center;
+            justify-content: start;
+
+            & .modal-user-name {
+               font-size: 12px;
+               font-weight: 400;
+               line-height: 16.2px;
+               color: #323854;
+            }
+
+            & #modal-active-user {
+               font-size: 10px;
+               font-weight: 300;
+               line-height: 12px;
+               color: #323854;
+            }
+         }
+      }
+   }
+
+   & .modal-exit {
+      width: 190px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & .exit-btn {
+         border: none;
+         width: 45px;
+         height: 40px;
+         padding: 10px 0px 10px 0px;
+         border-radius: 30px;
+         font-size: 16px;
+         font-weight: 400;
+         line-height: 21.6px;
+         text-align: center;
+         color: #008aff;
+         cursor: pointer;
+         background-color: transparent;
+      }
+
+      & #exit-icon {
+         width: 24px;
+         height: 24px;
+         cursor: pointer;
+      }
+   }
+}
+
+.modal-active {
+   display: grid;
+}

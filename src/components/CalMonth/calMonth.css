@@ -1,0 +1,29 @@
+.cal-month {
+   width: 160px;
+   height: 24px;
+   display: flex;
+   align-items: center;
+   justify-items: start;
+   gap: 16px;
+
+   & i {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+   }
+
+   & .current-date {
+      width: 80px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & span {
+         font-size: 16px;
+         font-weight: 700;
+         line-height: 20px;
+         color: #323854;
+      }
+   }
+}

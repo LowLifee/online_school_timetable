@@ -1,3 +1,4 @@
 .main-page {
-
+   display: flex;
+   padding-top: 25px;
 }

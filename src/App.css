@@ -2,9 +2,8 @@
   text-align: center;
   max-width: 1440px;
   max-height: 840px;
-  overflow-x: hidden;
   display: flex;
   justify-content: center;
-  align-items: center;
   margin: 0 auto;
+  padding-top: 25px;
 }
