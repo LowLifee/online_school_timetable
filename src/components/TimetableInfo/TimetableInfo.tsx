@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectMenu } from 'components/Menu/menuSelector';
 import { useNextLesson } from './useNextLesson';
@@ -12,7 +13,7 @@ import Shedule from 'components/Shedule/Sсhedule';
 import Timetable from 'components/Timetable/Timetable';
 
 import './timetableInfo.css';
-import { useCallback, useEffect, useState } from 'react';
+
 
 const TimetableInfo = () => {
    const menu = useSelector(selectMenu);

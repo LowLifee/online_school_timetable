@@ -1,3 +1,10 @@
 .timetable {
    max-width: 1072px;
+   position: relative;
+
+   & .spinner {
+      position: absolute;
+      top: 200px;
+      right: 450px;
+   }
 }

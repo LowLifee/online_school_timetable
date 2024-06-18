@@ -5,7 +5,8 @@ export type Lessons = {
    teacher: string
    payed: boolean,
    missed: boolean,
-   cancelled: boolean
+   cancelled: boolean,
+   id: string
 }
 
 

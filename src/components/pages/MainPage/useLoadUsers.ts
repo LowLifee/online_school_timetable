@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 
-import { loadUsers } from './userSlice';
+import { loadUsers, updateUsers } from './userSlice';
 import { selectUsersList } from './userSelector';
 
 import { useAppDispatch } from 'store';
-import { UserEmails } from 'types';
+import { Lessons, UserEmails } from 'types';
 
 
-export const useGetUser = (): [UserEmails[], () => void] => {
+export const useGetUser = (): [UserEmails[], () => void, (id: string, lessons: UserEmails) => void] => {
    const dispatch = useAppDispatch();
    const allUsers = useSelector(selectUsersList);
 
@@ -15,5 +15,9 @@ export const useGetUser = (): [UserEmails[], () => void] => {
       dispatch(loadUsers());
    }
 
-   return [allUsers, getUSersAsync]
+   const updateList = async (id: string, lessons: UserEmails) => {
+      dispatch(updateUsers({ userId: id, updateFields: lessons }))
+   }
+
+   return [allUsers, getUSersAsync, updateList]
 }

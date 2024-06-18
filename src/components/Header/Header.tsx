@@ -1,4 +1,4 @@
-
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
 import { selectUsersList } from 'components/pages/MainPage/userSelector';
@@ -9,7 +9,7 @@ import userArrow from 'assets/img/user_arrow.png';
 import './header.css';
 
 import { useOpenModal } from 'components/ModalUserList/useSwitchModal';
-import { useCallback } from 'react';
+
 
 interface HeaderProps {
    greating: boolean;

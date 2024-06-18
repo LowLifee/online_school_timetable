@@ -1,8 +1,10 @@
 
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { useSwitchAuthStatus } from 'components/pages/AuthPage/useSwitchAuthStatus';
 import CustomLink from 'components/CustomLink/CustomLink';
-import { useSelector } from 'react-redux';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 
 
@@ -21,11 +23,21 @@ const AuthForm = () => {
    const [userLog, setUserLog] = useState<UserLog | null>(null);
    const [login, setLogin] = useState<string>('');
    const [password, setPassword] = useState<string>('');
+   const localEmail = localStorage.getItem('email');
+
+   const navigate = useNavigate();
 
    const allUsers = useSelector(selectUsersList);
 
    const [authStatus, accessEnter] = useSwitchAuthStatus();
    const [activeUser, onSetActiveUser] = useCurrUser();
+
+   useEffect(() => {
+
+      if (localEmail) {
+         setLogin(localEmail);
+      }
+   }, [])
 
    const matchName = (value: string) => {
       const user = allUsers.find(item => item.email === value);
@@ -72,10 +84,33 @@ const AuthForm = () => {
 
    }, [login, password, authStatus]);
 
+   const onSubmitByKeydown = useCallback((event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+         if (isUser(login, password)) {
+            accessEnter(true);
+            localStorage.clear();
+            localStorage.setItem('email', login);
+            localStorage.setItem('user', activeUser);
+            setLogin('');
+            setPassword('');
+            navigate(`/${activeUser}`);
+
+         } else {
+            accessEnter(false);
+            console.log('false')
+         }
+      }
+   }, [login, password, authStatus, activeUser]);
+
    useEffect(() => {
-      if(login)
-      onSetActiveUser(login);
-   }, [login])
+      document.body.addEventListener('keydown', onSubmitByKeydown);
+      return () => document.body.removeEventListener('keydown', onSubmitByKeydown);
+   }, [login, password]);
+
+   useEffect(() => {
+      if (login)
+         onSetActiveUser(login);
+   }, [login, password]);
 
    return (
       <form
@@ -110,7 +145,7 @@ const AuthForm = () => {
          </div>
          <div className="auth-btn-wrapper">
             <CustomLink
-               to={'/main'}
+               to={activeUser}
                className={'btn-form'}
                onClick={onSubmit}
                children='Войти'

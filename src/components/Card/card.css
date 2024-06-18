@@ -93,3 +93,8 @@
    justify-content: start;
    background-color: #c8c5cd;
 }
+
+.card.active{
+border: 1px solid #7362BC
+}
+

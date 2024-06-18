@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Status, UserEmails } from "types";
+import { error } from "console";
+import { Status, UserEmails, Lessons } from "types";
 
 
 
@@ -21,12 +22,34 @@ export const loadUsers = createAsyncThunk(
    }
 );
 
-
 export type UserInfo = {
    status: Status,
    error: string | null,
    list: UserEmails[]
 };
+
+export const updateUsers = createAsyncThunk<UserInfo, { userId: string, updateFields: UserEmails }>(
+   'users/update-users',
+   async (datas) => {
+      try {
+         const res = (await fetch(`http://localhost:3001/emails/${datas.userId}`, {
+            method: "PATCH",
+            headers: {
+               'Content-type': 'application/json',
+            },
+            body: JSON.stringify(datas.updateFields)
+         }));
+         if (!res.ok) {
+            throw new Error('Ошибка при обновлении пользователя');
+         }
+         return await res.json();
+      }
+      catch (error) {
+         console.log(error);
+      }
+   }
+);
+
 
 const initialState: UserInfo = {
    status: 'idle',
@@ -47,12 +70,49 @@ const initialState: UserInfo = {
                teacher: '',
                payed: false,
                missed: false,
-               cancelled: false
+               cancelled: false,
+               id: '1'
             }
          ]
       }
    ]
 }
+
+//export type Updated = {
+//   users: [];
+//   status: 'idle' | 'loading' | 'rejected' | 'received';
+//   error: null | 'Cannot load data'
+//}
+
+//const initial: Updated = {
+//   users: [],
+//   status: 'idle',
+//   error: null,
+//}
+
+//export const userUpdateSlice = createSlice({
+//   name: 'updated-users',
+//   initialState: initial,
+//   reducers: {},
+//   extraReducers: (builder) => {
+//      builder
+//         .addCase(updateUsers.pending, (state) => {
+//            state.status = 'loading';
+//            error: null;
+//         })
+//         .addCase(updateUsers.rejected, (state) => {
+//            state.status = 'rejected';
+//            state.error = 'Cannot load data'
+//         })
+//         .addCase(updateUsers.fulfilled, (state, action) => {
+//            state.status = 'received';
+//            state.users = action.payload
+//         })
+//   }
+//})
+
+
+
 
 export const userSlice = createSlice({
    name: 'users',

@@ -3,13 +3,20 @@ import CalMonth from 'components/CalMonth/CalMonth';
 
 import './calHeader.css';
 
-const CalHeader = () => {
+interface CalHeaderProps {
+   onChangeDate: (mehtod: 'next' | 'prev') => void;
+   onGetToday: () => void;
+   month: number;
+   year: number;
+}
+
+const CalHeader = ({ onChangeDate, onGetToday, month, year }: CalHeaderProps) => {
 
    return (
       <div className="cal-header">
-         <CalMonth />
+         <CalMonth onChangeDate={onChangeDate} month={month} year={year} />
          <div className="today-part">
-            <button>Сегодня</button>
+            <button onClick={onGetToday}>Сегодня</button>
             <span>?</span>
          </div>
       </div>

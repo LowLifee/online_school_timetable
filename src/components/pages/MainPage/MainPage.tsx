@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useSwitchAuthStatus } from '../AuthPage/useSwitchAuthStatus';
+import { useCurrUser } from './currentUserSlice/useCurrUser';
 
 
 import AuthPage from '../AuthPage/AuthPage';
@@ -8,13 +9,15 @@ import MainContent from 'components/MainContent/MainContent';
 import { useGetUser } from './useLoadUsers';
 
 import './mainPage.css';
-import { useEffect, Fragment } from 'react';
+import { useEffect } from 'react';
 
 
 const MainPage = () => {
 
    const [authStatus] = useSwitchAuthStatus();
    const [allUsers, getUSersAsync] = useGetUser();
+   const [activeUser, setActiveUser] = useCurrUser();
+
 
    useEffect(() => {
       getUSersAsync();
@@ -22,9 +25,8 @@ const MainPage = () => {
 
    return (
       <Routes>
-         {authStatus ? <>
-            <Route path='/main' element={<MainContent />} />
-         </> : <><Route path='/' element={<AuthPage />} /></>}
+         <Route path='/' element={<AuthPage />} />
+         <Route path={`/${activeUser}`} element={<MainContent />} />
       </Routes>
    )
 };

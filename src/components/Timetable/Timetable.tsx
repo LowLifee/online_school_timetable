@@ -12,11 +12,12 @@ import './timetable.css';
 const Timetable = () => {
 
    const currentUserId = useSelector(selectActiveUser);
+   const localCurrenID = localStorage.getItem('key');
 
    return (
       <div className="timetable">
-         {currentUserId ? <><TimetableSubjectsSelect /> <Cal /></> : 
-         <GridLoader color='#decfff' size={50} />}
+         {currentUserId ? <><TimetableSubjectsSelect /> <Cal /></> :
+            <GridLoader color='#decfff' size={50} className='spinner' />}
 
       </div>
    )

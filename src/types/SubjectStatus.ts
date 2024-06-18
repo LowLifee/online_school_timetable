@@ -1,0 +1,1 @@
+export type SubjectStatus = 'done' | 'canceled' | 'past-not' | 'todays-done' | 'coming' | 'todays-canceled';

@@ -1,24 +1,47 @@
-
+import { useCallback, useRef } from 'react';
+import { SubjectStatus } from 'types';
 import walletIcon from 'assets/img/Wallet.png';
 
 import './card.css';
 
-type Status = 'done' | 'canceled' | 'past-not' | 'todays-done' | 'coming' | 'todays-canceled';
+
 
 interface CardProps {
-   status: Status;
+   status: SubjectStatus;
    payed: boolean;
+   subjectName: string;
+   time: string;
+   id: string;
+   onDrag: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
-const Card = ({ status, payed }: CardProps) => {
+const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
+   const cards = document.querySelectorAll('.card');
+   const cardRef = useRef<HTMLDivElement | null>(null);
+   const onActive = useCallback(() => {
+
+      cards.forEach(item => {
+         item.classList.remove('active');
+         if (cardRef.current) {
+            cardRef.current.classList.add('active');
+         }
+      });
+   }, [cardRef])
 
    return (
-      <div className={`card ${status}`}>
+      <div
+         className={`card ${status}`}
+         ref={cardRef}
+         data-active
+         data-id={id}
+         onClick={onActive}
+         onDragStart={(e) => onDrag(e)}
+         draggable>
          <div className="sbj-time">
-            <span className="card-time">13:00-13:45</span>
-            <i><img src={walletIcon} alt="Wallet" /></i>
+            <span className="card-time">{time}</span>
+            {payed ? <i><img src={walletIcon} alt="Wallet" /></i> : ''}
          </div>
-         <span className="card-sbj">Ментальная арифметика</span>
+         <span className="card-sbj">{subjectName}</span>
       </div>
    )
 }

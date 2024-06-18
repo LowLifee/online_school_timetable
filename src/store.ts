@@ -7,6 +7,7 @@ import { modalSwitchReducer } from "./components/ModalUserList/modalSwitchSlice"
 import { authReducer } from "components/pages/AuthPage/authSlice";
 import { currUserReducer } from "components/pages/MainPage/currentUserSlice/currentUserSlice";
 import { nextLessonReducer } from "components/TimetableInfo/nextLessonSlice";
+import { sortedReduce } from "components/TimetableSubjectsSelect/sortSubject";
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
       users: userReducer,
       menu: menuReducer,
       current: currUserReducer,
-      nextLesson: nextLessonReducer
+      nextLesson: nextLessonReducer,
+      sorted: sortedReduce
    },
    devTools: true,
    middleware: (getDefaulMiddleware) => getDefaulMiddleware({
