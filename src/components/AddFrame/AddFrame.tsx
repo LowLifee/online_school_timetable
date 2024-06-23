@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useAddChangeFrameModal } from './useAddFrameModal';
-import { useGetUser } from 'components/pages/MainPage/useLoadUsers';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 import { useAddTimeDate } from './addTimeDateSlice/useAddTimeDate';
-import { selectUsersInfo } from 'components/pages/MainPage/userSelector';
 
 import Button from 'components/Button/Button';
 
@@ -21,10 +19,9 @@ const AddFrame = () => {
    const [errorMessage, setErrorMessage] = useState('');
    const [newDate, setNewDate] = useState<Lessons[] | null>(null);
    const [message, setMessage] = useState<string>('');
-   const { status } = useSelector(selectUsersInfo);
    const [disabled, setDisabled] = useState(false);
 
-   const [allUsers, __, ___, editData] = useGetUser();
+   const [allUsers, setAllUsers] = useGetUser();
    const [currentUserId] = useCurrUser();
    const [modalStatus, setModalStatus] = useAddChangeFrameModal();
 
@@ -85,11 +82,18 @@ const AddFrame = () => {
 
          if (newDate) {
             let newList = allUsers.find(item => item.id === currentUserId);
-            if (newList) {
+            if (newList !== undefined) {
                newList = { ...newList, lessons: [...newDate, ...data] }
-               editData(currentUserId, newList);
-               setMessage('Успех!');
-               console.log(newList)
+               const updatedDatas = allUsers.map(list => {
+                  if (list.id === currentUserId && newList) {
+                     return newList;
+                  } else {
+                     return list;
+                  }
+               })
+               if(updatedDatas){
+                  setAllUsers(updatedDatas)
+               }
             }
          }
       }
@@ -101,7 +105,7 @@ const AddFrame = () => {
       setSelectedSubj('Выберите предмет');
       setTime('');
       setDate('');
-   }, [selectedSubject, date, time, errorMessage, status, newDate]);
+   }, [selectedSubject, date, time, errorMessage, newDate]);
 
    const closeModal = useCallback(() => {
       setSelectedSubj('Выберите предмет');
@@ -128,7 +132,6 @@ const AddFrame = () => {
       if (allUsers) {
          setNewDate(allUsers.filter(item => item.id === currentUserId)[0].lessons);
       }
-      status === 'loading' ? setDisabled(true) : setDisabled(false);
       return () => document.body.removeEventListener('keydown', closeModalByBtn);
    }, []);
 

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { userReducer } from "components/pages/MainPage/userSlice";
+import { userReducer } from "slices/userSlice/userSlice";
 import { menuReducer } from "components/Menu/menuSlice";
 
 import { modalSwitchReducer } from "./components/ModalUserList/modalSwitchSlice";

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { useMenu } from 'components/Menu/useMenu';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
+import { selectUsersList } from 'slices/userSlice/userSelector';
 
 import Menu from 'components/Menu/Menu';
 import Header from 'components/Header/Header';

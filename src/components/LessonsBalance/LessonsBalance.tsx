@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux';
-
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
 import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
-import { useHttpHook } from 'httpHook/useHttpHook';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 
 import { UserEmails } from 'types';
 
@@ -18,9 +16,8 @@ interface SortedSubject {
 type Elem = (string | number)[][];
 
 const LessonsBalance = () => {
-   const { getAllUsers, getCurrentUser } = useHttpHook();
-   const [currentUser, setCurrentUser] = useState<UserEmails | null>(null)
-   const allUsers = useSelector(selectUsersList);
+   const [allUsers] = useGetUser();
+   const [currentUser, setCurrentUser] = useState<UserEmails | null>(null);
    const currentUserId = useSelector(selectActiveUser);
    const [subjetName, setSubjectName] = useState<string[]>(['']);
 
@@ -28,12 +25,13 @@ const LessonsBalance = () => {
    const totalSubjectBalance: SortedSubject = {};
 
    useEffect(() => {
-      getCurrentUser(currentUserId)
-         .then((res: UserEmails) => setCurrentUser(res));
-
-         if(currentUser){
-            setSubjectName(currentUser.lessons.map(item => item.subject))
-         }
+      const activeUser = allUsers.find(item => item.id === currentUserId);
+      if (activeUser) {
+         setCurrentUser(activeUser)
+      }
+      if (currentUser) {
+         setSubjectName(currentUser.lessons.map(item => item.subject))
+      }
    }, [currentUser, allUsers])
 
    sortedSubject.forEach(key => {

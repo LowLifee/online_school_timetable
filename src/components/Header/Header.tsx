@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
-import { useHttpHook } from 'httpHook/useHttpHook';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 
 import { UserEmails } from 'types';
 
@@ -18,15 +18,17 @@ interface HeaderProps {
 }
 
 const Header = ({ greating }: HeaderProps) => {
-   const [modalStaus, toggleTheme] = useOpenModal();
+   const [_, toggleTheme] = useOpenModal();
    const currUser = useSelector(selectActiveUser);
-   const { getAllUsers, getCurrentUser } = useHttpHook();
-   const [sortedUser, setSorted] = useState<UserEmails | undefined>(undefined);
+   const [allUsers] = useGetUser();
+   const [sortedUser, setSorted] = useState<UserEmails | null>(null);
 
    useEffect(() => {
-      getCurrentUser(currUser).then(res => setSorted(res));
-      console.log('render MainPage');
-   }, [currUser])
+      const sorted = allUsers.filter(item => item.id === currUser)[0];
+      if (sorted) {
+         setSorted(sorted);
+      }
+   }, [currUser, allUsers])
 
    const renderItems = useCallback((user: typeof sortedUser) => {
       if (sortedUser) {

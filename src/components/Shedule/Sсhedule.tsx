@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
 import { useNextLesson } from 'components/TimetableInfo/useNextLesson';
-import { useHttpHook } from 'httpHook/useHttpHook';
 
 import Button from 'components/Button/Button';
 import studentIcon from 'assets/img/student_icon.png';
@@ -14,11 +13,10 @@ import './shedule.css';
 import { Lessons } from 'types';
 
 const Sсhedule = () => {
-   const [nextLesson, setNextLesson] = useNextLesson();
+   const [_, setNextLesson] = useNextLesson();
    const [currentUser, setCurrenUser] = useState<UserEmails | null>(null);
-   const { getAllUsers, getCurrentUser } = useHttpHook();
 
-   const allUsers = useSelector(selectUsersList);
+   const [allUsers] = useGetUser();
    const currentUserId = useSelector(selectActiveUser);
 
    let allSubjectDates: string[],
@@ -74,8 +72,10 @@ const Sсhedule = () => {
    }
 
    useEffect(() => {
-      getCurrentUser(currentUserId)
-         .then((res: UserEmails) => setCurrenUser(res));
+      const activeUser = allUsers.find(item => item.id === currentUserId);
+      if (activeUser) {
+         setCurrenUser(activeUser)
+      }
    }, [currentUserId, allUsers])
 
    useEffect(() => {

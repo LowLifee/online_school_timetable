@@ -8,7 +8,7 @@ import CustomLink from 'components/CustomLink/CustomLink';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 
 
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
+import { selectUsersList } from 'slices/userSlice/userSelector';
 
 import { UserLog } from 'types/userLog';
 
@@ -39,22 +39,27 @@ const AuthForm = () => {
       if (localEmail) {
          setLogin(localEmail);
       }
-   }, [])
+   }, []);
 
-   const matchName = (value: string) => {
+   useEffect(() => {
+console.log(allUsers, 'effect')
+   }, [allUsers])
+
+   const matchName = useCallback((value: string) => {
       const user = allUsers?.find(item => item.email === value);
+      console.log(allUsers, user)
       return user;
-   }
+   }, [allUsers, login, password])
 
-   const matchPassword = (password: string, user: UserEmails | undefined): boolean => {
+   const matchPassword = useCallback((password: string, user: UserEmails | undefined): boolean => {
       return user!.password === password;
-   }
+   }, [allUsers, login, password]) 
 
    const isUser = useCallback((value: string, password: string): boolean => {
       const email = matchName(value);
       let result = email ? matchPassword(password, email) : false;
       return result
-   }, [])
+   }, [allUsers, login, password])
 
    const onLog = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
       const target = e.target;

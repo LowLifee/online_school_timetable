@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useCloseModal } from './useSwitchModal';
-import { useHttpHook } from 'httpHook/useHttpHook';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
-import CustomLink from 'components/CustomLink/CustomLink';
 
 import { UserEmails } from 'types';
 
-import userAvatar from 'assets/img/user_avatar.png';
-import userAvatar2 from 'assets/img/anna_avatar.png';
 import exitIcon from 'assets/img/exit.png';
 import poligon from 'assets/img/Polygon_2.png';
 
@@ -17,20 +14,14 @@ import './modalUserList.css';
 const ModalUserList = () => {
    const [modalStatus, toggleTheme] = useCloseModal();
    const [usersId, setUsersId] = useState<string[] | null>(null);
-   const [allUsers, setAllUsers] = useState<UserEmails[] | null>(null);
-   const { getAllUsers } = useHttpHook();
+   const [allUsers] = useGetUser();
    const [currentUserId, setCurrentUserId] = useCurrUser();
    let modalActive = modalStatus ? 'modal-active' : '';
 
    useEffect(() => {
       const id: string[] = [];
-      getAllUsers()
-         .then((res: UserEmails[]) => {
-            setAllUsers(res);
-            res.forEach(item => {
-               id.push(item.id);
-            })
-         });
+      allUsers.forEach(item => id.push(item.id))
+      
       if (id.length > 0) {
          setUsersId(id);
       }

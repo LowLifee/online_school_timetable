@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Lessons, SubjectStatus } from 'types';
 import walletIcon from 'assets/img/Wallet.png';
 import { useSwitchFrame } from 'components/Frame/useSwitchFrame';
-import { useGetUser } from 'components/pages/MainPage/useLoadUsers';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 
 import './card.css';
@@ -23,7 +23,7 @@ const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
    const cardRef = useRef<HTMLDivElement | null>(null);
    const [styles, setStyles] = useState<object>({ visibility: 'hidden' });
    const [animated, setAnimated] = useState('');
-   const [allUsers, _, updateList] = useGetUser();
+   const [allUsers, setAllUsers] = useGetUser();
    const [currUserId] = useCurrUser();
    const [list, setList] = useState<Lessons[] | null>(null)
 
@@ -52,7 +52,14 @@ const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
 
          let newData = allUsers.filter(item => item.id === currUserId)[0];
          newData = { ...newData, lessons: [...newList] };
-         updateList(currUserId, newData);
+         const updatedLists = allUsers.map(list => {
+            if (list.id === currUserId) {
+               return newData;
+            } else {
+               return list;
+            }
+         })
+         setAllUsers(updatedLists);
       }
    }, [list, allUsers, currUserId])
 
@@ -79,7 +86,7 @@ const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
             return false
       }
    }, [status]);
-   
+
    const onActive = useCallback(() => {
       cards.forEach(item => {
          item.classList.remove('active');

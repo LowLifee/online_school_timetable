@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useAppDispatch } from "store";
 import { setActiveUser } from "./currentUserSlice";
 import { selectActiveUser } from "./selectActiveUser";
-import { selectUsersList } from "../userSelector";
+import { selectUsersList } from "slices/userSlice/userSelector";
 
 export const useCurrUser = (): [string, (email: string) => void] => {
    const activeUser = useSelector(selectActiveUser);

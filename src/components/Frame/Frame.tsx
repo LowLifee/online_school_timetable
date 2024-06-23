@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetUser } from 'components/pages/MainPage/useLoadUsers';
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
+import { useGetUser } from 'slices/userSlice/useLoadUsers';
 import { selectSorted } from 'components/TimetableSubjectsSelect/sortedSelector';
 import DaysList from 'components/DaysList/DaysList';
 import Card from 'components/Card/Card';
 import AddFrame from 'components/AddFrame/AddFrame';
 import { useAddChangeFrameModal } from 'components/AddFrame/useAddFrameModal';
-import { useHttpHook } from 'httpHook/useHttpHook';
+import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 
 import './frame.css';
 import { Lessons, SubjectStatus, UserEmails } from 'types';
 import { sortedSubject } from 'components/TimetableSubjectsSelect/sortSubjectSlice';
-import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
 
 interface FrameProps {
    year: number;
@@ -26,9 +24,8 @@ interface CardProps {
 
 const Frame = ({ year, month }: FrameProps) => {
    const sortedSubject = useSelector(selectSorted);
-   const activeUser = useSelector(selectActiveUser);
-   const { getAllUsers, getCurrentUser } = useHttpHook();
-   const [allUsers, getUSersAsync, updateList] = useGetUser();
+   const [allUsers, setAllUsers] = useGetUser();
+   const [currentUserId] = useCurrUser();
 
    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
    const [list, setList] = useState<UserEmails | null>(null);
@@ -44,8 +41,10 @@ const Frame = ({ year, month }: FrameProps) => {
    //drag
 
    useEffect(() => {
-      getCurrentUser(activeUser)
-         .then((res: UserEmails) => setList(res));
+      const activeUser = allUsers.find(item => item.id === currentUserId);
+      if (activeUser) {
+         setList(activeUser);
+      }
 
    }, [allUsers]);
 
@@ -61,15 +60,29 @@ const Frame = ({ year, month }: FrameProps) => {
    }, [listOfSubjects, list, sortedSubject])
 
    useEffect(() => {
-      let newData;
+      let newData: UserEmails | null = null;
       const newList = list;
       if (list && listOfSubjects != undefined && listOfSubjects.length > 0 && newList?.name) {
          newData = { ...newList, lessons: [...listOfSubjects] };
       }
       const userId = localStorage.getItem('user')
 
-      if (dragging != null && userId && newData) {
-         updateList(userId, newData);
+      if (dragging != null && userId && newData && allUsers) {
+         const updateLists: UserEmails[] = allUsers.map(list => {
+            if (list.id === currentUserId) {
+               if(newData){
+               return newData;  
+               }else{
+                  return list
+               }
+            } else {
+               return list;
+            }
+         })
+
+         if(newData){
+            setAllUsers(updateLists)
+         }
       }
    }, [container, list, listOfSubjects])
 
