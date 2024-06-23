@@ -6,13 +6,16 @@ interface ButtonProps {
    children: string;
    width?: string;
    color: string;
+   onSubmit?: (e: React.FormEvent<HTMLButtonElement>) => void
+   onClick?: () => void;
+   disabled?: boolean;
 }
 
 interface BgColors {
    style: object
 }
 
-const Button = ({ children, width, color }: ButtonProps) => {
+const Button = ({ children, width, color, onSubmit, onClick, disabled }: ButtonProps) => {
 
    const white: BgColors = {
       style: {
@@ -62,7 +65,10 @@ const Button = ({ children, width, color }: ButtonProps) => {
    return (
       <button
          className={classNames}
-         style={styleBtn}>
+         style={styleBtn}
+         onSubmit={(e) => onSubmit ? onSubmit(e) : {}}
+         onClick={() => onClick ? onClick() : {}}
+         disabled={disabled}>
          {children}
       </button >
    )

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "store";
-import { setSorted } from "./sortSubject";
+import { setSorted } from "./sortSubjectSlice";
 import { selectSorted } from "./sortedSelector";
 import { SortedSubject } from "types";
 

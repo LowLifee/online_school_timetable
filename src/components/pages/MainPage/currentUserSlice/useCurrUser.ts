@@ -4,16 +4,20 @@ import { setActiveUser } from "./currentUserSlice";
 import { selectActiveUser } from "./selectActiveUser";
 import { selectUsersList } from "../userSelector";
 
-export const useCurrUser = (): [string, (value:string) => void] => {
+export const useCurrUser = (): [string, (email: string) => void] => {
    const activeUser = useSelector(selectActiveUser);
    const allUsers = useSelector(selectUsersList);
 
    const dispatch = useAppDispatch();
 
-   const onSetActiveUser = (value: string) => {
-      const users = allUsers.find(item => item.email === value);
-      if (users)
-         dispatch(setActiveUser(users.id))
+   const onSetActiveUser = (email: string) => {
+      const users = allUsers?.find(item => item.email === email);
+      if (users != undefined) {
+         localStorage.clear();
+         localStorage.setItem('email', email);
+         localStorage.setItem('user', users.id);
+         dispatch(setActiveUser(users.id));
+      }
    }
 
    return [activeUser, onSetActiveUser]

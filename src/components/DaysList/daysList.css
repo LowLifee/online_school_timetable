@@ -31,4 +31,22 @@
       text-align: right;
       color: #79747f;
    }
+
+   &.drag-over {
+      border: 1px solid #7362bc;
+   }
+   &.today {
+      border: 1px solid #7362bc;
+   }
+
+   & .add-btns {
+      width: 145px;
+      height: 34px;
+      border: 1px solid #bbe7b9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background-color: transparent;
+   }
 }

@@ -1,0 +1,97 @@
+.change-frame {
+   position: absolute;
+   left: 200px;
+   bottom: 100px;
+
+   & .change-frame-exit {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+   }
+
+   & .change-form {
+      width: 400px;
+      height: 400px;
+      border-radius: 12px;
+      padding-top: 10px;
+      display: grid;
+      justify-content: center;
+      border: 1px solid #7362bc;
+      background-color: #fff;
+
+      & .sbj-select {
+         width: 253px;
+         height: 36px;
+         border-radius: 8px;
+         border: 1px solid #7362bc;
+         padding: 10px 12px;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         font-size: 12px;
+         font-weight: 400;
+         line-height: 16.2px;
+         text-align: left;
+         color: #79747f;
+         outline: none;
+
+         & option {
+            width: 253px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #7362bc;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16.2px;
+            text-align: left;
+            color: #79747f;
+            outline: none;
+         }
+      }
+
+      & input {
+         width: 253px;
+         height: 36px;
+         border-radius: 8px;
+         border: 1px solid #7362bc;
+         padding: 10px 12px;
+         color: #79747f;
+         outline: none;
+         font-size: 12px;
+         font-weight: 400;
+         line-height: 16.2px;
+      }
+
+      & .change-lesson-date.error {
+         border: 1px solid red;
+      }
+
+      & #errorMessage {
+         position: absolute;
+         bottom: 203px;
+         right: 88px;
+         color: red;
+      }
+
+      & .change-lesson-btns {
+         width: 253px;
+         height: 36px;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         gap: 10px;
+         background-color: #fff;
+
+         & button {
+            height: 34px;
+         }
+      }
+   }
+}
+

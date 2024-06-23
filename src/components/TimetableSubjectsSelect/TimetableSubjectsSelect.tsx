@@ -1,4 +1,5 @@
 import { useSorted } from './useSorted';
+import { useSwitchFrame } from 'components/Frame/useSwitchFrame';
 import Button from 'components/Button/Button';
 
 import './timetableSelect.css';
@@ -7,6 +8,11 @@ import { SortedSubject } from 'types';
 
 const TimetableSubjectsSelect = () => {
    const [sorted, sortSubject] = useSorted();
+   const [switchFrameStatus, switchStatus] = useSwitchFrame();
+
+   const toggleFrame = useCallback(() => {
+      switchStatus(!switchFrameStatus);
+   }, [switchFrameStatus])
 
    const onSelectSort = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
       sortSubject(e.target.value as SortedSubject)
@@ -31,7 +37,11 @@ const TimetableSubjectsSelect = () => {
             </option>
          </select>
 
-         <Button children='Изменить расписание' width='344' color='violet' />
+         <Button
+            children={switchFrameStatus ? 'Сохранить' : 'Изменить расписание'}
+            width='344'
+            color='violet'
+            onClick={toggleFrame} />
       </div>
    )
 }

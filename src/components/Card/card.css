@@ -29,6 +29,23 @@
       text-align: left;
       color: #323854;
    }
+
+   .delete-card-lesson {
+      position: absolute;
+      color: red;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 50%;
+      border: solid 1px red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 12px;
+      height: 12px;
+      top: -10px;
+      right: -5px;
+      background-color: #fff;
+   }
 }
 
 .card.done {
@@ -94,7 +111,39 @@
    background-color: #c8c5cd;
 }
 
-.card.active{
-border: 1px solid #7362BC
+.card.active {
+   border: 1px solid #7362bc;
 }
 
+.animated {
+   animation: wobble 0.5s linear;
+   animation-iteration-count: infinite;
+   cursor: grab;
+}
+
+@keyframes wobble {
+   0% {
+      transform: translateX(0) rotate(0deg);
+   }
+   15% {
+      transform: translateX(-1px) rotate(-2deg);
+   }
+   30% {
+      transform: translateX(1px) rotate(2deg);
+   }
+   45% {
+      transform: translateX(-1px) rotate(-1deg);
+   }
+   60% {
+      transform: translateX(1px) rotate(1deg);
+   }
+   75% {
+      transform: translateX(-0.5px) rotate(-0.5deg);
+   }
+   90% {
+      transform: translateX(0.5px) rotate(0.5deg);
+   }
+   100% {
+      transform: translateX(0) rotate(0deg);
+   }
+}

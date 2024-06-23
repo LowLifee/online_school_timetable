@@ -1,5 +1,5 @@
 
-import { useCallback, useState } from 'react';
+import { useCallback} from 'react';
 
 import AuthForm from 'components/AuthForm/AuthForm';
 
@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { GridLoader } from 'react-spinners';
 
 import './authPage.css';
-
 
 const AuthPage = () => {
    const { status, error } = useSelector(selectUsersInfo);

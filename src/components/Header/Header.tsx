@@ -1,7 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
-import { selectUsersList } from 'components/pages/MainPage/userSelector';
+import { useHttpHook } from 'httpHook/useHttpHook';
+
+import { UserEmails } from 'types';
 
 import chatIcon from 'assets/img/chat_icon.png';
 import userAvatar from 'assets/img/user_avatar.png';
@@ -16,15 +18,18 @@ interface HeaderProps {
 }
 
 const Header = ({ greating }: HeaderProps) => {
-
    const [modalStaus, toggleTheme] = useOpenModal();
    const currUser = useSelector(selectActiveUser);
-   const allUsers = useSelector(selectUsersList);
+   const { getAllUsers, getCurrentUser } = useHttpHook();
+   const [sortedUser, setSorted] = useState<UserEmails | undefined>(undefined);
 
-   const sortedUser = allUsers.find(users => users.id === currUser);
+   useEffect(() => {
+      getCurrentUser(currUser).then(res => setSorted(res));
+      console.log('render MainPage');
+   }, [currUser])
 
    const renderItems = useCallback((user: typeof sortedUser) => {
-      if (allUsers) {
+      if (sortedUser) {
 
          return (
             <div className="header">
@@ -47,7 +52,7 @@ const Header = ({ greating }: HeaderProps) => {
       }
 
       return <h2>error</h2>
-   }, [currUser, allUsers])
+   }, [currUser, sortedUser])
 
    const element = renderItems(sortedUser)
 

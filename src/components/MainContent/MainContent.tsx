@@ -6,14 +6,11 @@ import { useMenu } from 'components/Menu/useMenu';
 import { useCurrUser } from 'components/pages/MainPage/currentUserSlice/useCurrUser';
 import { selectUsersList } from 'components/pages/MainPage/userSelector';
 
-
 import Menu from 'components/Menu/Menu';
 import Header from 'components/Header/Header';
 import TimetableInfo from 'components/TimetableInfo/TimetableInfo';
 
-
 import './mainContent.css';
-
 
 const MainContent = () => {
    const allUsers = useSelector(selectUsersList);
@@ -25,7 +22,7 @@ const MainContent = () => {
       if (localId) {
          setCur(localId)
       }
-
+      const remember = localStorage.getItem('remember');
    }, [allUsers])
 
    const [menu] = useMenu();

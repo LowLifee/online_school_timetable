@@ -1,14 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetUser } from 'components/pages/MainPage/useLoadUsers';
 import { selectUsersList } from 'components/pages/MainPage/userSelector';
 import { selectSorted } from 'components/TimetableSubjectsSelect/sortedSelector';
 import DaysList from 'components/DaysList/DaysList';
 import Card from 'components/Card/Card';
+import AddFrame from 'components/AddFrame/AddFrame';
+import { useAddChangeFrameModal } from 'components/AddFrame/useAddFrameModal';
+import { useHttpHook } from 'httpHook/useHttpHook';
 
 import './frame.css';
-import { Lessons, SubjectStatus } from 'types';
-import { sortedSubject } from 'components/TimetableSubjectsSelect/sortSubject';
+import { Lessons, SubjectStatus, UserEmails } from 'types';
+import { sortedSubject } from 'components/TimetableSubjectsSelect/sortSubjectSlice';
+import { selectActiveUser } from 'components/pages/MainPage/currentUserSlice/selectActiveUser';
 
 interface FrameProps {
    year: number;
@@ -22,36 +26,52 @@ interface CardProps {
 
 const Frame = ({ year, month }: FrameProps) => {
    const sortedSubject = useSelector(selectSorted);
+   const activeUser = useSelector(selectActiveUser);
+   const { getAllUsers, getCurrentUser } = useHttpHook();
    const [allUsers, getUSersAsync, updateList] = useGetUser();
 
-
-   const [list] = useSelector(selectUsersList),
-      daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
-
-   const [listOfSubjects, setList] = useState(list.lessons);
+   const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+   const [list, setList] = useState<UserEmails | null>(null);
+   const [listOfSubjects, setListOfSubject] = useState<Lessons[] | null>(null);
    const [dragging, setDragging] = useState<Lessons | null>(null);
    const [dragOverIndex, setDragOverIndex] = useState('');
-   const listRef = useRef<HTMLDivElement>(null);
    const [container, setContainer] = useState('');
    const [dragged, setDragged] = useState<string | null>('');
-   const [count, setCount] = useState(0);
+   const [sorted, setSorted] = useState<Lessons[] | null>(null);
 
+   const [addFrameStatus] = useAddChangeFrameModal();
 
    //drag
 
    useEffect(() => {
+      getCurrentUser(activeUser)
+         .then((res: UserEmails) => setList(res));
 
-      const newData = { ...list, lessons: listOfSubjects };
+   }, [allUsers]);
 
+   useEffect(() => {
+      if (list) {
+         setListOfSubject(list.lessons);
+      }
 
+   }, [list]);
+
+   useEffect(() => {
+      sort();
+   }, [listOfSubjects, list, sortedSubject])
+
+   useEffect(() => {
+      let newData;
+      const newList = list;
+      if (list && listOfSubjects != undefined && listOfSubjects.length > 0 && newList?.name) {
+         newData = { ...newList, lessons: [...listOfSubjects] };
+      }
       const userId = localStorage.getItem('user')
 
-      if (dragging != null && userId) {
-         //updateList(userId, newData);
-         //getUSersAsync();
+      if (dragging != null && userId && newData) {
+         updateList(userId, newData);
       }
-   }, [container])
+   }, [container, list, listOfSubjects])
 
    const handleDragStart = useCallback((e: React.DragEvent<HTMLDivElement>) => {
 
@@ -65,7 +85,7 @@ const Frame = ({ year, month }: FrameProps) => {
          }
       }
 
-   }, [dragging, listOfSubjects, container, dragOverIndex, dragged])
+   }, [dragging, list, listOfSubjects, container, dragOverIndex, dragged])
 
    const handleDragOver = useCallback((e: React.DragEvent<HTMLLIElement>) => {
       e.preventDefault();
@@ -73,6 +93,7 @@ const Frame = ({ year, month }: FrameProps) => {
       const dragOverDay = e.currentTarget.getAttribute('data-date');
       if (dragOverDay) {
          setDragOverIndex(dragOverDay);
+         e.currentTarget.classList.add('drag-over')
       }
 
    }, [dragged, dragging, dragOverIndex]);
@@ -89,16 +110,20 @@ const Frame = ({ year, month }: FrameProps) => {
             setContainer(container);
          }
       }
-      const newList = listOfSubjects.map(item => {
-         if (item.id == draggedItem.id) {
-            const changedDatedDragging = { ...item, date: container };
-            return { ...changedDatedDragging }
-         } else {
-            return item
-         }
-      })
-      setList(newList as Lessons[]);
-   }, [dragged, dragging, dragOverIndex, container]);
+
+      if (listOfSubjects && container) {
+         const newList = listOfSubjects.map(item => {
+            if (item.id == draggedItem.id) {
+               const changedDatedDragging = { ...item, date: container };
+               return { ...changedDatedDragging }
+            } else {
+               return item
+            }
+         })
+         setListOfSubject(newList);
+      }
+
+   }, [dragged, dragging, dragOverIndex, listOfSubjects, container]);
 
 
    //dates
@@ -125,15 +150,12 @@ const Frame = ({ year, month }: FrameProps) => {
 
    // Заполняем дни текущего месяца
    for (let i = 0; i < daysInMonth; i++) {
-
       if (daysInCalendar.length >= 35) {
          break;
       }
       daysInCalendar.push(currentDay.toString());
       currentDay++;
    }
-
-
 
    const firstDayNextMonth = new Date(year, month, currentDay).getDay()
    const firstDayOfWeekNextMonth = firstDayNextMonth === 0 ? 7 : firstDayNextMonth;
@@ -165,10 +187,9 @@ const Frame = ({ year, month }: FrameProps) => {
    let curYear = year;
 
    const renderLists = useCallback((calendarDays: string[], list: Lessons[]) => {
-
+      //console.log(list)
       const elem = calendarDays.map((item, i) => {
-
-         const cards: React.ReactElement<CardProps>[] = [];
+         const cards: React.ReactElement<CardProps>[] = []
          if (currentMonth > 12) {
             currentMonth = 1;
             curYear++;
@@ -181,19 +202,17 @@ const Frame = ({ year, month }: FrameProps) => {
             }
             if (!isThereNextMonthsDays) {
                fullDate = `${year}.${+currentMonth <= 9 ? '0' + (currentMonth) : currentMonth}.${+item <= 9 ? '0' + item : item}`;
-
             }
          }
          if (isThereNextMonthsDays && i >= endOfCurrMonth.length) {
             fullDate = `${curYear}.${+currentMonth + 1 <= 9 ? '0' + (currentMonth + 1) : (currentMonth + 1)}.${+item <= 9 ? '0' + item : item}`;
-
          }
 
          list.forEach((subjectsInfo, i) => {
-
             const targetDate = new Date(`${subjectsInfo.date} ${subjectsInfo.time}`);
             const timeDifference = targetDate.getTime() - now.getTime();
             const secondsRemaining = Math.floor(timeDifference / 1000);
+
 
             if (fullDate === subjectsInfo.date) {
                let status: SubjectStatus = 'canceled';
@@ -222,7 +241,20 @@ const Frame = ({ year, month }: FrameProps) => {
                />)
             }
          });
+
          const key = ((Math.random() * 10000000) + 1).toFixed(3);
+         const currentData = new Date().toLocaleDateString('ru-RU', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+         }) == new Date(fullDate.replace(/\./g, '.')).toLocaleDateString('ru-RU', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+         });
+
          return <DaysList
             date={item}
             key={key}
@@ -232,41 +264,42 @@ const Frame = ({ year, month }: FrameProps) => {
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             fullDate={fullDate}
+            today={currentData}
          />
-
       });
-
 
       return elem;
+   }, [list, year, month, sorted, listOfSubjects]);
 
-   }, [list, year, month, listOfSubjects]);
-   let sorted: Lessons[] = [];
-   if (listOfSubjects) {
-      sorted = listOfSubjects.filter(item => {
-         switch (sortedSubject) {
-            case 'Выберите предмет':
-               return true;
-               break;
-            case 'Программирование':
-               return item.subject === 'Программирование';
-               break;
-            case 'Скорочтение':
-               return item.subject === 'Скорочтение';
-               break;
-            case 'Ментальная арифметика':
-               return item.subject === 'Ментальная арифметика';
-               break;
-            default:
-               return false;
-         }
-      });
+   const sort = useCallback(() => {
+      if (listOfSubjects) {
+         let sortedList;
+         sortedList = listOfSubjects.filter(item => {
+            switch (sortedSubject) {
+               case 'Выберите предмет':
+                  return true;
+                  break;
+               case 'Программирование':
+                  return item.subject === 'Программирование';
+                  break;
+               case 'Скорочтение':
+                  return item.subject === 'Скорочтение';
+                  break;
+               case 'Ментальная арифметика':
+                  return item.subject === 'Ментальная арифметика';
+                  break;
+               default:
+                  return false;
+            }
+         });
+         console.log(sortedList);
+         setSorted(sortedList);
+      }
+   }, [list, allUsers, sorted, sortedSubject, listOfSubjects])
 
-   }
 
    const weekDays = renderWeeks(daysOfWeek);
-   const dayLists = renderLists(daysInCalendar, sorted);
-
-
+   const dayLists = renderLists(daysInCalendar, sorted ? sorted : []);
 
    return (
       <div className="frame-wrapper">
@@ -275,6 +308,7 @@ const Frame = ({ year, month }: FrameProps) => {
          </ul>
          <ul className="days-shedule">
             {dayLists}
+            {addFrameStatus ? <AddFrame /> : ''}
          </ul>
       </div>
    )

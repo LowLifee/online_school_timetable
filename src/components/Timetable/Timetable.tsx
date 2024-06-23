@@ -18,7 +18,6 @@ const Timetable = () => {
       <div className="timetable">
          {currentUserId ? <><TimetableSubjectsSelect /> <Cal /></> :
             <GridLoader color='#decfff' size={50} className='spinner' />}
-
       </div>
    )
 }

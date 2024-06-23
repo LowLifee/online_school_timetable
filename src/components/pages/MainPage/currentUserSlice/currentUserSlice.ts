@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CurrUser } from "types";
 
 const currentUserSlice = createSlice({
    name: '@@currentUser',
-   initialState: '' as CurrUser,
+   initialState: '',
    reducers: {
-      setActiveUser: (state, action: PayloadAction<CurrUser>) => action.payload
+      setActiveUser: (state, action: PayloadAction<string>) => action.payload
    }
 })
 

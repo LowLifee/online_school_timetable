@@ -13,17 +13,20 @@ import { selectUsersList } from 'components/pages/MainPage/userSelector';
 import { UserLog } from 'types/userLog';
 
 import passwordIconHidden from 'assets/img/password_hidden_icon.png';
+import passwordIconVisible from 'assets/img/password_visible_icon.png'
 import './authForm.css';
 import { UserEmails } from 'types';
 
 
 const AuthForm = () => {
 
-
    const [userLog, setUserLog] = useState<UserLog | null>(null);
    const [login, setLogin] = useState<string>('');
    const [password, setPassword] = useState<string>('');
    const localEmail = localStorage.getItem('email');
+   const [access, setAccess] = useState(false);
+   const [passwordStatus, setPasswordStatus] = useState(false);
+   const [remember, setRemember] = useState(false);
 
    const navigate = useNavigate();
 
@@ -33,14 +36,13 @@ const AuthForm = () => {
    const [activeUser, onSetActiveUser] = useCurrUser();
 
    useEffect(() => {
-
       if (localEmail) {
          setLogin(localEmail);
       }
    }, [])
 
    const matchName = (value: string) => {
-      const user = allUsers.find(item => item.email === value);
+      const user = allUsers?.find(item => item.email === value);
       return user;
    }
 
@@ -55,7 +57,6 @@ const AuthForm = () => {
    }, [])
 
    const onLog = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
-
       const target = e.target;
       switch (e.target.getAttribute('name')) {
          case 'email':
@@ -64,11 +65,12 @@ const AuthForm = () => {
          case 'password':
             setPassword(target.value);
             break;
+         case 'checkbox':
+            setRemember(!remember);
       }
-   }, [login, password, allUsers])
+   }, [login, password, allUsers, remember, access])
 
    const onSubmit = useCallback((e: React.MouseEvent<HTMLAnchorElement>): void => {
-
       setUserLog({
          login,
          password
@@ -76,41 +78,62 @@ const AuthForm = () => {
 
       if (isUser(login, password)) {
          accessEnter(true);
+         setAccess(true);
+
+         if (remember) {
+            localStorage.setItem('remember', `${login}`)
+         }
+
          setLogin('');
          setPassword('');
       } else {
          accessEnter(false);
       }
+   }, [login, password, authStatus, remember]);
 
-   }, [login, password, authStatus]);
-
-   const onSubmitByKeydown = useCallback((event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+   const onSubmitByKeydown = useCallback((e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
          if (isUser(login, password)) {
             accessEnter(true);
+            setAccess(true);
             localStorage.clear();
             localStorage.setItem('email', login);
             localStorage.setItem('user', activeUser);
+
+            if (remember) {
+               localStorage.setItem('remember', `${login}`)
+            }
+
             setLogin('');
             setPassword('');
-            navigate(`/${activeUser}`);
-
+            if (access) {
+               navigate(access ? `/user` : '');
+            }
+            setAccess(false);
          } else {
             accessEnter(false);
-            console.log('false')
+            console.log('false');
          }
       }
-   }, [login, password, authStatus, activeUser]);
+   }, [login, password, authStatus, activeUser, access, remember]);
+
+   const togglePasswordStatus = useCallback(() => {
+      setPasswordStatus(!passwordStatus);
+   }, [passwordStatus])
 
    useEffect(() => {
       document.body.addEventListener('keydown', onSubmitByKeydown);
       return () => document.body.removeEventListener('keydown', onSubmitByKeydown);
-   }, [login, password]);
+   }, [login, password, authStatus, access]);
 
    useEffect(() => {
-      if (login)
+      if (login) {
          onSetActiveUser(login);
-   }, [login, password]);
+         if (isUser(login, password)) {
+            setAccess(true);
+         }
+      }
+   }, [login, password, authStatus]);
 
    return (
       <form
@@ -127,25 +150,30 @@ const AuthForm = () => {
             </div>
             <div className="inputs">
                <input
-                  type="password"
+                  type={passwordStatus ? "text" : "password"}
                   name='password'
                   placeholder='Пароль'
                   required
                   onChange={(e) => onLog(e)}
                   value={password} />
-               <i id='password-icon'><img src={passwordIconHidden} alt="Hide password" /></i>
+               <i id='password-icon'
+                  onClick={togglePasswordStatus}>
+                  <img src={passwordStatus ? passwordIconVisible : passwordIconHidden} alt="Hide password" />
+               </i>
             </div>
             <div className="checkbox-wrapper">
                <input
                   type="checkbox"
                   name='checkbox'
-                  id='auth-checkbox' />
+                  id='auth-checkbox'
+                  checked={remember}
+                  onChange={(e) => onLog(e)} />
                <label htmlFor="auth-checkbox">Запомнить меня</label>
             </div>
          </div>
          <div className="auth-btn-wrapper">
             <CustomLink
-               to={activeUser}
+               to={access ? '/user' : ''}
                className={'btn-form'}
                onClick={onSubmit}
                children='Войти'

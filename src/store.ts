@@ -7,7 +7,11 @@ import { modalSwitchReducer } from "./components/ModalUserList/modalSwitchSlice"
 import { authReducer } from "components/pages/AuthPage/authSlice";
 import { currUserReducer } from "components/pages/MainPage/currentUserSlice/currentUserSlice";
 import { nextLessonReducer } from "components/TimetableInfo/nextLessonSlice";
-import { sortedReduce } from "components/TimetableSubjectsSelect/sortSubject";
+import { sortedReduce } from "components/TimetableSubjectsSelect/sortSubjectSlice";
+import { addModalReducer } from "components/AddFrame/addFrameModalSlice";
+import { switchChangeFrameReducer } from "components/Frame/switchChangeFrameSlice";
+import { addTimeDateReducer } from "components/AddFrame/addTimeDateSlice/addTimeDateSlice";
+import { updatingReducer } from "components/pages/MainPage/updatingSlice/updatingSlice";
 
 
 export const store = configureStore({
@@ -18,7 +22,11 @@ export const store = configureStore({
       menu: menuReducer,
       current: currUserReducer,
       nextLesson: nextLessonReducer,
-      sorted: sortedReduce
+      sorted: sortedReduce,
+      addModalStatus: addModalReducer,
+      frameChange: switchChangeFrameReducer,
+      addTimeDate: addTimeDateReducer,
+      updating: updatingReducer
    },
    devTools: true,
    middleware: (getDefaulMiddleware) => getDefaulMiddleware({
