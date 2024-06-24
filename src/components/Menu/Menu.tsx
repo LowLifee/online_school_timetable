@@ -44,7 +44,6 @@ const Menu = () => {
       setSelected(menu)
    }, [menu])
 
-
    return (
       <div className="menu">
          <div className="menu-logo">

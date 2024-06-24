@@ -35,16 +35,6 @@ const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
       }
    }, [allUsers, currUserId])
 
-   useEffect(() => {
-      if (modalFrame && isDraggable) {
-         setStyles({ visibility: 'visible' });
-         setAnimated('animated');
-      } else {
-         setStyles({ visibility: 'hidden' });
-         setAnimated('');
-      }
-   }, [modalFrame]);
-
    const handleDeleteSubject = useCallback((id: string) => {
       if (list && allUsers && currUserId) {
          setList(list.filter(item => item.id !== id));
@@ -86,6 +76,16 @@ const Card = ({ status, payed, subjectName, time, id, onDrag }: CardProps) => {
             return false
       }
    }, [status]);
+
+   useEffect(() => {
+      if (modalFrame && isDraggable) {
+         setStyles({ visibility: 'visible' });
+         setAnimated('animated');
+      } else {
+         setStyles({ visibility: 'hidden' });
+         setAnimated('');
+      }
+   }, [modalFrame, isDraggable]);
 
    const onActive = useCallback(() => {
       cards.forEach(item => {

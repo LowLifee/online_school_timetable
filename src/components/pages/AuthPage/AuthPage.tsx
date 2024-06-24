@@ -1,7 +1,6 @@
 import AuthForm from 'components/AuthForm/AuthForm';
 
 import logo from 'assets/img/icons/logo.png';
-import { useSelector } from 'react-redux';
 
 import './authPage.css';
 

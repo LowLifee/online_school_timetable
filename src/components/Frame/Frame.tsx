@@ -46,7 +46,7 @@ const Frame = ({ year, month }: FrameProps) => {
          setList(activeUser);
       }
 
-   }, [allUsers]);
+   }, []);
 
    useEffect(() => {
       if (list) {
@@ -305,7 +305,6 @@ const Frame = ({ year, month }: FrameProps) => {
                   return false;
             }
          });
-         console.log(sortedList);
          setSorted(sortedList);
       }
    }, [list, allUsers, sorted, sortedSubject, listOfSubjects])

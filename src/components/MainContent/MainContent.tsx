@@ -13,8 +13,8 @@ import TimetableInfo from 'components/TimetableInfo/TimetableInfo';
 import './mainContent.css';
 
 const MainContent = () => {
-   const allUsers = useSelector(selectUsersList);
    const [currUserId, setCur] = useCurrUser();
+   const [menu] = useMenu();
 
 
    useEffect(() => {
@@ -22,10 +22,7 @@ const MainContent = () => {
       if (localId) {
          setCur(localId)
       }
-      const remember = localStorage.getItem('remember');
-   }, [allUsers])
-
-   const [menu] = useMenu();
+   }, [currUserId, menu])
    return (
       <Fragment>
          <Menu />

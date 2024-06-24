@@ -28,7 +28,7 @@ const Header = ({ greating }: HeaderProps) => {
       if (sorted) {
          setSorted(sorted);
       }
-   }, [currUser, allUsers])
+   }, [currUser])
 
    const renderItems = useCallback((user: typeof sortedUser) => {
       if (sortedUser) {
@@ -54,7 +54,7 @@ const Header = ({ greating }: HeaderProps) => {
       }
 
       return <h2>error</h2>
-   }, [currUser, sortedUser])
+   }, [currUser, sortedUser, greating])
 
    const element = renderItems(sortedUser)
 

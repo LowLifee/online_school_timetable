@@ -22,7 +22,7 @@ const TimetableInfo = () => {
 
    useEffect(() => {
       setEndate(nextLesson.replace(/\./g, '-'))
-   }, [nextLesson])
+   }, [nextLesson, menu])
 
    const renderItems = useCallback(() => {
       switch (menu) {
@@ -44,7 +44,10 @@ const TimetableInfo = () => {
             </div>
             break;
          case 'timetable':
-            return <div className="timetable-info"><Timetable /></div>
+            return <div className="timetable-info">
+               <ModalUserList />
+               <Timetable />
+            </div>
             break;
       }
    }, [menu, nextLesson, endDate]);

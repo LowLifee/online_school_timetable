@@ -9,7 +9,7 @@ import MainContent from 'components/MainContent/MainContent';
 import { data } from 'data';
 
 import './mainPage.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const MainPage = () => {
    const [authStatus] = useSwitchAuthStatus();
@@ -18,10 +18,9 @@ const MainPage = () => {
    const [activeUser] = useCurrUser();
 
    useEffect(() => {
-      setAllUsers(data);
-   }, [isUpdate, activeUser]);
+      setAllUsers(data)
+   }, []);
 
-   
    return (
       <Routes>
          <Route path='/' element={<AuthPage />} />
